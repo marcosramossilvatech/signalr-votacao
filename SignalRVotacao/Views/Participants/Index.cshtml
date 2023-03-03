@@ -1,0 +1,47 @@
+﻿@model IEnumerable<SignalRVotacao.Models.Participants>
+
+@{
+    ViewData["Title"] = "Cadastro";
+}
+
+<h1>Cadastro</h1>
+
+<p>
+    <a asp-action="Create">Criar novo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ParticName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Url)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalVoto)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParticName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Url)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalVoto)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ParticId">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.ParticId">Detalhes</a> |
+                <a asp-action="Delete" asp-route-id="@item.ParticId">Deletar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

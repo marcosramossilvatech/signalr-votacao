@@ -7,5 +7,6 @@ namespace SignalRVotacao.Models
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options) { }
 
         public virtual DbSet<Products> Products { get; set; }
+        public virtual DbSet<Participants> Participants { get; set; }
     }
 }
