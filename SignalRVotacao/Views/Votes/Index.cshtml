@@ -1,0 +1,83 @@
+﻿@model IEnumerable<SignalRVotacao.Models.Vote>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Periodo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataFim)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Participants)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Participant1Total)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Participants2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Participant2Total)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Participants3)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Participant3Total)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Periodo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataFim)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Participants.ParticName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Participant1Total)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Participants2.ParticName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Participant2Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Participants3.ParticName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Participant3Total)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.VoteId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.VoteId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.VoteId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

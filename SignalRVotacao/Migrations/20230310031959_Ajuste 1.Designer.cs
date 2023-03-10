@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SignalRVotacao.Models;
 
@@ -10,9 +11,10 @@ using SignalRVotacao.Models;
 namespace SignalRVotacao.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230310031959_Ajuste 1")]
+    partial class Ajuste1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,13 +90,6 @@ namespace SignalRVotacao.Migrations
                     b.Property<int>("Participant2Total")
                         .HasColumnType("int");
 
-                    b.Property<int>("Participant3Id")
-                        .HasColumnType("int")
-                        .HasColumnOrder(3);
-
-                    b.Property<int>("Participant3Total")
-                        .HasColumnType("int");
-
                     b.Property<string>("Periodo")
                         .HasColumnType("longtext");
 
@@ -103,8 +98,6 @@ namespace SignalRVotacao.Migrations
                     b.HasIndex("Participant1Id");
 
                     b.HasIndex("Participant2Id");
-
-                    b.HasIndex("Participant3Id");
 
                     b.ToTable("Vote");
                 });
@@ -123,17 +116,9 @@ namespace SignalRVotacao.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SignalRVotacao.Models.Participants", "Participants3")
-                        .WithMany()
-                        .HasForeignKey("Participant3Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Participants");
 
                     b.Navigation("Participants2");
-
-                    b.Navigation("Participants3");
                 });
 #pragma warning restore 612, 618
         }

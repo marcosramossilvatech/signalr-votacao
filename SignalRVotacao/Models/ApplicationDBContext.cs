@@ -8,5 +8,6 @@ namespace SignalRVotacao.Models
 
         public virtual DbSet<Products> Products { get; set; }
         public virtual DbSet<Participants> Participants { get; set; }
+        public virtual DbSet<Vote> Vote { get; set; }
     }
 }

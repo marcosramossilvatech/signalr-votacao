@@ -5,7 +5,7 @@ $(() => {
     var connection = new signalR.HubConnectionBuilder().withUrl("/signalrServer").build();
     connection.start();
     connection.on("LoadProducts", function () { LoadProdData(); });
-    LoadProdData();
+    //LoadProdData();
     function LoadProdData() {
         var tr = '';
 

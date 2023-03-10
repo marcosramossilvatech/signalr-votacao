@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SignalRVotacao.Models;
 
@@ -10,9 +11,10 @@ using SignalRVotacao.Models;
 namespace SignalRVotacao.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230310020533_Criação de Vote")]
+    partial class CriaçãodeVote
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,66 +76,12 @@ namespace SignalRVotacao.Migrations
                     b.Property<DateTime>("DataInicio")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("Participant1Id")
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
-
-                    b.Property<int>("Participant1Total")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Participant2Id")
-                        .HasColumnType("int")
-                        .HasColumnOrder(2);
-
-                    b.Property<int>("Participant2Total")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Participant3Id")
-                        .HasColumnType("int")
-                        .HasColumnOrder(3);
-
-                    b.Property<int>("Participant3Total")
-                        .HasColumnType("int");
-
                     b.Property<string>("Periodo")
                         .HasColumnType("longtext");
 
                     b.HasKey("VoteId");
 
-                    b.HasIndex("Participant1Id");
-
-                    b.HasIndex("Participant2Id");
-
-                    b.HasIndex("Participant3Id");
-
                     b.ToTable("Vote");
-                });
-
-            modelBuilder.Entity("SignalRVotacao.Models.Vote", b =>
-                {
-                    b.HasOne("SignalRVotacao.Models.Participants", "Participants")
-                        .WithMany()
-                        .HasForeignKey("Participant1Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SignalRVotacao.Models.Participants", "Participants2")
-                        .WithMany()
-                        .HasForeignKey("Participant2Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SignalRVotacao.Models.Participants", "Participants3")
-                        .WithMany()
-                        .HasForeignKey("Participant3Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Participants");
-
-                    b.Navigation("Participants2");
-
-                    b.Navigation("Participants3");
                 });
 #pragma warning restore 612, 618
         }
