@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SignalRVotacao.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,19 +13,19 @@ namespace SignalRVotacao.Controllers
     public class ParticipantsController : Controller
     {
         private readonly ApplicationDBContext _context;
-
-        public ParticipantsController(ApplicationDBContext context)
+        private readonly IWebHostEnvironment webHostEnvironment;
+        public ParticipantsController(ApplicationDBContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            webHostEnvironment = hostEnvironment;
         }
 
-        // GET: Participants
+
         public async Task<IActionResult> Index()
         {
               return View(await _context.Participants.ToListAsync());
         }
 
-        // GET: Participants/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Participants == null)
@@ -40,21 +43,20 @@ namespace SignalRVotacao.Controllers
             return View(participants);
         }
 
-        // GET: Participants/Create
+
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Participants/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ParticId,ParticName,Url,TotalVoto")] Participants participants)
+        public async Task<IActionResult> Create([Bind("ParticId,ParticName,Url,TotalVoto,Foto")] Participants participants)
         {
             if (ModelState.IsValid)
             {
+                string nomeArquivo = UploadedFile(participants.Foto);
+                participants.Url = nomeArquivo;
                 _context.Add(participants);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -62,7 +64,23 @@ namespace SignalRVotacao.Controllers
             return View(participants);
         }
 
-        // GET: Participants/Edit/5
+        private string UploadedFile(Microsoft.AspNetCore.Http.IFormFile foto)
+        {
+            string nomeUnicoArquivo = null;
+
+            if (foto!= null)
+            {
+                string pastaFotos = Path.Combine(webHostEnvironment.WebRootPath, "Imagens");
+                nomeUnicoArquivo = Guid.NewGuid().ToString() + "_" + foto.FileName;
+                string caminhoArquivo = Path.Combine(pastaFotos, nomeUnicoArquivo);
+                using (var fileStream = new FileStream(caminhoArquivo, FileMode.Create))
+                {
+                    foto.CopyTo(fileStream);
+                }
+            }
+            return nomeUnicoArquivo;
+        }
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Participants == null)
@@ -78,12 +96,10 @@ namespace SignalRVotacao.Controllers
             return View(participants);
         }
 
-        // POST: Participants/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ParticId,ParticName,Url,TotalVoto")] Participants participants)
+        public async Task<IActionResult> Edit(int id, [Bind("ParticId,ParticName,Url,TotalVoto,Foto")] Participants participants)
         {
             if (id != participants.ParticId)
             {
@@ -113,7 +129,7 @@ namespace SignalRVotacao.Controllers
             return View(participants);
         }
 
-        // GET: Participants/Delete/5
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Participants == null)
@@ -131,7 +147,6 @@ namespace SignalRVotacao.Controllers
             return View(participants);
         }
 
-        // POST: Participants/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
