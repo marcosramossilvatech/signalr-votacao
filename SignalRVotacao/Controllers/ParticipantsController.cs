@@ -91,6 +91,7 @@ namespace SignalRVotacao.Controllers
             var participants = await _context.Participants.FindAsync(id);
             if (participants == null)
             {
+
                 return NotFound();
             }
             return View(participants);
@@ -110,6 +111,8 @@ namespace SignalRVotacao.Controllers
             {
                 try
                 {
+                    string nomeArquivo = UploadedFile(participants.Foto);
+                    participants.Url = nomeArquivo;
                     _context.Update(participants);
                     await _context.SaveChangesAsync();
                 }

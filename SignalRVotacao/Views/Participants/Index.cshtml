@@ -21,27 +21,35 @@
             <th>
                 @Html.DisplayNameFor(model => model.TotalVoto)
             </th>
-            <th></th>
+            <th>Opçoes</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.ParticName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Url)
+                    @if (@item.Url != null || @item.Url == "")
+                {
+                    <img src="~/Imagens/@item.Url" class="rounded-circle" height="40" width="40" asp-append-version="true" />                    
+                }
+                else
+                {
+                    <img src="~/Imagens/default.jpg" class="rounded-circle" height="40" width="40" asp-append-version="true" />
+                    
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TotalVoto)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ParticId">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.ParticId">Detalhes</a> |
-                <a asp-action="Delete" asp-route-id="@item.ParticId">Deletar</a>
+                <a asp-action="Edit" asp-route-id="@item.ParticId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ParticId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ParticId">Delete</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

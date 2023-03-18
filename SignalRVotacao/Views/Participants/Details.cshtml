@@ -30,6 +30,14 @@
         </dd>
     </dl>
 </div>
+<div class="form-group">
+    @if (@Model.Url != null ||  @Model.Url == "" )
+    {
+         <img src="~/Imagens/@Model.Url" height="200" width="200" asp-append-version="true" />
+    }
+    @*    <img src="~/Imagens/@Model.Foto" class="rounded-circle" height="40" width="40" asp-append-version="true" />
+    <img id="imagem-selecionada" alt="Imagem selecionada">*@
+</div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.ParticId">Editar</a> |
     <a asp-action="Index">Voltar para listagem</a>
